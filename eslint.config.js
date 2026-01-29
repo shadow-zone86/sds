@@ -24,6 +24,14 @@ export default [
     },
   },
   {
+    files: ['**/*.vue'],
+    languageOptions: {
+      parserOptions: {
+        parser: tseslint.parser,
+      },
+    },
+  },
+  {
     files: ['webpack.config.js', '*.config.js'],
     languageOptions: {
       globals: {

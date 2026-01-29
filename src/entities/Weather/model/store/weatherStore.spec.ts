@@ -53,6 +53,22 @@ describe('weatherStore', () => {
     expect(store.error).toBeNull();
   });
 
+  it('fetch sets display fields from mapper (description, iconUrl, windSpeedText, tempRounded, feelsLikeRounded)', async () => {
+    const store = useWeatherStore();
+    const mockGet = container.resolve<IGetCurrentWeatherService>(
+      WEATHER_TOKENS.GetCurrentWeatherService
+    )!.get as jest.MockedFunction<IGetCurrentWeatherService['get']>;
+    mockGet.mockResolvedValue(mockApiResponse);
+
+    await store.fetch({ cityQuery: 'Moscow' });
+
+    expect(store.weather?.description).toBe('снег');
+    expect(store.weather?.iconUrl).toBe('https://openweathermap.org/img/wn/13n@2x.png');
+    expect(store.weather?.windSpeedText).toBe('—');
+    expect(store.weather?.tempRounded).toBe(-10);
+    expect(store.weather?.feelsLikeRounded).toBe(-15);
+  });
+
   it('fetch sets error on failure', async () => {
     const store = useWeatherStore();
     const mockGet = container.resolve<IGetCurrentWeatherService>(

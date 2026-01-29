@@ -1,4 +1,3 @@
-/** Элемент массива weather в ответе OpenWeatherMap Current Weather API */
 export interface IWeatherConditionApi {
   id: number;
   main: string;

@@ -50,6 +50,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
     weather,
     isLoading,
     error,
+    setError,
     fetch,
     clear,
   };

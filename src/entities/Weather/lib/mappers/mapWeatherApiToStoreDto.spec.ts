@@ -70,6 +70,24 @@ describe('mapWeatherApiToStoreDto', () => {
     expect(result?.wind).toBeUndefined();
   });
 
+  it('fills display fields: description, iconUrl, windSpeedText, tempRounded, feelsLikeRounded', () => {
+    const result = mapWeatherApiToStoreDto(minimalApiResponse);
+    expect(result?.description).toBe('снег');
+    expect(result?.iconUrl).toBe('https://openweathermap.org/img/wn/13n@2x.png');
+    expect(result?.windSpeedText).toBe('—');
+    expect(result?.tempRounded).toBe(-10);
+    expect(result?.feelsLikeRounded).toBe(-15);
+  });
+
+  it('formats windSpeedText when wind is present', () => {
+    const withWind: ICurrentWeatherApiResponse = {
+      ...minimalApiResponse,
+      wind: { speed: 5.2, deg: 180 },
+    };
+    const result = mapWeatherApiToStoreDto(withWind);
+    expect(result?.windSpeedText).toBe('5.2 м/с');
+  });
+
   it('preserves id, name, cod, dt, timezone, sys', () => {
     const result = mapWeatherApiToStoreDto(minimalApiResponse);
     expect(result?.id).toBe(524901);

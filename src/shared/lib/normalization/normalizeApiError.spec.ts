@@ -10,7 +10,12 @@ describe('normalizeApiError', () => {
   });
 
   it('returns error.message for Error instance', () => {
-    expect(normalizeApiError(new Error('Network error'))).toBe('Network error');
+    expect(normalizeApiError(new Error('City not found'))).toBe('City not found');
+  });
+
+  it('returns network message for network errors', () => {
+    expect(normalizeApiError(new Error('Network error'))).toBe('Проверьте подключение к интернету');
+    expect(normalizeApiError(new Error('Network Error'))).toBe('Проверьте подключение к интернету');
   });
 
   it('returns default message for null/undefined', () => {
