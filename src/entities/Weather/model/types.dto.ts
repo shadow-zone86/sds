@@ -30,6 +30,7 @@ export interface IWeatherStoreDto {
   description: string;
   iconUrl: string;
   windSpeedText: string;
+  tempUnit: string;
   tempRounded: number;
   feelsLikeRounded: number;
 }

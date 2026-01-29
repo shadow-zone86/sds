@@ -24,6 +24,9 @@ defineProps<IWeatherErrorProps>();
   color: var(--el-color-danger);
   background: var(--el-color-danger-light-9);
   border-radius: var(--el-border-radius-base);
+  width: 100%;
+  max-width: 360px;
+  box-sizing: border-box;
 }
 
 .weather-error__icon {

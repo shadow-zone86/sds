@@ -54,12 +54,20 @@ onMounted(() => {
 .weather-widget {
   @include flex-col(center, center, $spacing-md);
   min-height: 100vh;
-  @include padding-all($spacing-xl);
+  @include padding-all($spacing-md);
+
+  @include media-min-sm {
+    @include padding-all($spacing-xl);
+  }
 
   &__title {
     margin: 0;
     color: $color-primary;
-    @include font-size($font-size-lg);
+    @include font-size($font-size-md);
+
+    @include media-min-sm {
+      @include font-size($font-size-lg);
+    }
   }
 
   &__search {

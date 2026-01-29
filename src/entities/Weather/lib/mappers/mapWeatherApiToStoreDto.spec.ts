@@ -70,11 +70,12 @@ describe('mapWeatherApiToStoreDto', () => {
     expect(result?.wind).toBeUndefined();
   });
 
-  it('заполняет поля отображения: description, iconUrl, windSpeedText, tempRounded, feelsLikeRounded', () => {
+  it('заполняет поля отображения: description, iconUrl, windSpeedText, tempUnit, tempRounded, feelsLikeRounded', () => {
     const result = mapWeatherApiToStoreDto(minimalApiResponse);
     expect(result?.description).toBe('снег');
     expect(result?.iconUrl).toBe('https://openweathermap.org/img/wn/13n@2x.png');
     expect(result?.windSpeedText).toBe('—');
+    expect(result?.tempUnit).toBe('°C');
     expect(result?.tempRounded).toBe(-10);
     expect(result?.feelsLikeRounded).toBe(-15);
   });
@@ -100,5 +101,14 @@ describe('mapWeatherApiToStoreDto', () => {
       sunrise: 1769664562,
       sunset: 1769694940,
     });
+  });
+
+  it('корректно обрабатывает пустой или отсутствующий weather (краевой случай)', () => {
+    const withoutWeather = { ...minimalApiResponse, weather: undefined } as unknown as ICurrentWeatherApiResponse;
+    const result = mapWeatherApiToStoreDto(withoutWeather);
+    expect(result).not.toBeNull();
+    expect(result?.weather).toEqual([]);
+    expect(result?.description).toBe('');
+    expect(result?.iconUrl).toBe('');
   });
 });

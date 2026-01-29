@@ -20,6 +20,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { ElMessage } from 'element-plus';
 import { useWeatherStore } from '@entities/Weather';
 import { getCityQueryFromInput } from '../lib/getCityQueryFromInput';
 
@@ -31,17 +32,21 @@ function submit(): void {
   const query = getCityQueryFromInput(cityQuery.value);
   if (query !== null) {
     weatherStore.fetch({ cityQuery: query });
+  } else {
+    ElMessage.info('Введите название города');
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .search-city-form {
-  display: flex;
-  gap: $spacing-sm;
-  align-items: center;
-  max-width: 360px;
+  @include flex-col(stretch, flex-start, $spacing-sm);
   width: 100%;
+  max-width: 360px;
+
+  @include media-min-sm {
+    @include flex-row(center, flex-start, $spacing-sm);
+  }
 }
 
 .search-city-form__input {
