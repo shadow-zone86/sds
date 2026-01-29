@@ -1,21 +1,27 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
-import axios from 'axios';
+import type { AxiosInstance } from 'axios';
 import GetCurrentWeatherService from './getCurrentWeatherService';
 
-jest.mock('axios');
-jest.mock('@/shared/config/openWeatherConfig', () => ({
-  getOpenWeatherBaseUrl: () => 'https://api.openweathermap.org/data/2.5',
-  getOpenWeatherApiKey: () => 'test-key',
-}));
+const OPENWEATHER_BASE = 'https://api.openweathermap.org/data/2.5';
+const TEST_CONFIG = { baseUrl: OPENWEATHER_BASE, apiKey: 'test-key' };
 
-const mockedAxiosGet = axios.get as jest.MockedFunction<typeof axios.get>;
+/** Минимальный контракт для сервиса: только get (остальные методы AxiosInstance не используются). */
+interface MockHttpClient {
+  get: jest.Mock;
+}
+
+function createMockHttpClient(): MockHttpClient {
+  return { get: jest.fn() };
+}
 
 describe('GetCurrentWeatherService', () => {
   let service: GetCurrentWeatherService;
+  let mockHttpClient: MockHttpClient;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new GetCurrentWeatherService();
+    mockHttpClient = createMockHttpClient();
+    service = new GetCurrentWeatherService(TEST_CONFIG, mockHttpClient as unknown as AxiosInstance);
   });
 
   describe('get', () => {
@@ -34,12 +40,12 @@ describe('GetCurrentWeatherService', () => {
           cod: 200,
         },
       };
-      mockedAxiosGet.mockResolvedValue(response);
+      (mockHttpClient.get as jest.Mock).mockResolvedValue(response as never);
 
       await service.get({ cityQuery: 'Moscow' });
 
-      expect(mockedAxiosGet).toHaveBeenCalledWith(
-        'https://api.openweathermap.org/data/2.5/weather',
+      expect(mockHttpClient.get).toHaveBeenCalledWith(
+        '/weather',
         expect.objectContaining({
           params: expect.objectContaining({
             q: 'Moscow',
@@ -67,12 +73,12 @@ describe('GetCurrentWeatherService', () => {
           cod: 200,
         },
       };
-      mockedAxiosGet.mockResolvedValue(response);
+      (mockHttpClient.get as jest.Mock).mockResolvedValue(response as never);
 
       await service.get({ latitude: 55.75, longitude: 37.62 });
 
-      expect(mockedAxiosGet).toHaveBeenCalledWith(
-        expect.any(String),
+      expect(mockHttpClient.get).toHaveBeenCalledWith(
+        '/weather',
         expect.objectContaining({
           params: expect.objectContaining({
             lat: 55.75,
@@ -96,17 +102,16 @@ describe('GetCurrentWeatherService', () => {
         name: 'Москва',
         cod: 200,
       };
-      mockedAxiosGet.mockResolvedValue({ data });
+      (mockHttpClient.get as jest.Mock).mockResolvedValue({ data } as never);
 
       const result = await service.get({ cityQuery: 'Moscow' });
 
       expect(result).toEqual(data);
     });
 
-    it('бросает Error с нормализованным сообщением при ошибке API', async () => {
-      mockedAxiosGet.mockRejectedValue({
-        response: { data: { message: 'Invalid API key' } },
-      });
+    it('пробрасывает ошибку от HTTP-клиента (нормализация — в перехватчике shared)', async () => {
+      // @ts-expect-error -- jest.Mock infers never for mockRejectedValue arg in this setup
+      (mockHttpClient.get as jest.Mock).mockRejectedValue(new Error('Invalid API key'));
 
       await expect(service.get({ cityQuery: 'Moscow' })).rejects.toThrow('Invalid API key');
     });
