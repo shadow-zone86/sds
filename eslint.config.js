@@ -24,6 +24,14 @@ export default [
     },
   },
   {
+    files: ['webpack.config.js', '*.config.js'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+      },
+    },
+  },
+  {
     ignores: ['dist', 'node_modules', 'coverage', '*.cjs', 'jest.config.cjs'],
   },
 ];
