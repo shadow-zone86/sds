@@ -7,7 +7,7 @@
 }
 
 html {
-  font-size: $font-size-base;
+  @include font-size($font-size-base);
   line-height: $line-height-base;
 }
 

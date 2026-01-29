@@ -5,5 +5,11 @@ export function getOpenWeatherBaseUrl(): string {
 }
 
 export function getOpenWeatherApiKey(): string {
-  return process.env.OPENWEATHERMAP_API_KEY ?? '';
+  const key = process.env.OPENWEATHERMAP_API_KEY;
+  if (key === undefined || key === '') {
+    throw new Error(
+      'OPENWEATHERMAP_API_KEY is not set. Set it in .env locally or in Vercel Project → Settings → Environment Variables.'
+    );
+  }
+  return key;
 }

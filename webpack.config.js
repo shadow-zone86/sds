@@ -13,9 +13,9 @@ dotenv.config();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const OPENWEATHERMAP_API_KEY =
-  process.env.OPENWEATHERMAP_API_KEY ?? '5a666d94c7358d45f0298d0e5307d1bc';
+  process.env.OPENWEATHERMAP_API_KEY;
 const OPENWEATHERMAP_BASE =
-  process.env.OPENWEATHERMAP_BASE ?? 'https://api.openweathermap.org/data/2.5';
+  process.env.OPENWEATHERMAP_BASE;
 
 const baseConfig = {
   entry: './src/main.ts',
@@ -64,6 +64,7 @@ const baseConfig = {
               additionalData: `
                 @use "@/shared/styles/variables" as *;
                 @use "@/shared/styles/mixins/flex" as *;
+                @use "@/shared/styles/mixins/font" as *;
                 @use "@/shared/styles/mixins/media" as *;
                 @use "@/shared/styles/mixins/spacing" as *;
               `,
