@@ -10,7 +10,17 @@ describe('normalizeApiError', () => {
   });
 
   it('возвращает error.message для экземпляра Error', () => {
-    expect(normalizeApiError(new Error('City not found'))).toBe('City not found');
+    expect(normalizeApiError(new Error('Some error'))).toBe('Some error');
+  });
+
+  it('возвращает сообщение «город не найден» для city not found', () => {
+    expect(normalizeApiError(new Error('City not found'))).toBe(
+      'Город не найден. Проверьте название и попробуйте снова.'
+    );
+    const error = { response: { data: { message: 'city not found' } } };
+    expect(normalizeApiError(error)).toBe(
+      'Город не найден. Проверьте название и попробуйте снова.'
+    );
   });
 
   it('возвращает сообщение о сети для сетевых ошибок', () => {

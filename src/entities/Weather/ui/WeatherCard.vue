@@ -12,8 +12,8 @@
         class="weather-card__icon"
       >
       <div class="weather-card__temp-block">
-        <span class="weather-card__temp">{{ weather.tempRounded }}°</span>
-        <span class="weather-card__feels">Ощущается {{ weather.feelsLikeRounded }}°</span>
+        <span class="weather-card__temp">{{ weather.tempRounded }} {{ weather.tempUnit }}</span>
+        <span class="weather-card__feels">Ощущается {{ weather.feelsLikeRounded }} {{ weather.tempUnit }}</span>
       </div>
     </div>
     <p class="weather-card__description">
@@ -45,17 +45,22 @@ defineProps<IWeatherCardProps>();
 
 <style lang="scss" scoped>
 .weather-card {
-  padding: $spacing-xl;
-  min-width: 280px;
+  padding: $spacing-md;
+  min-width: 0;
+  width: 100%;
+  max-width: 360px;
   background: var(--el-fill-color-light);
   border-radius: var(--el-border-radius-base);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+
+  @include media-min-sm {
+    padding: $spacing-xl;
+    min-width: 280px;
+  }
 }
 
 .weather-card__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  @include flex-between(baseline);
   margin-bottom: $spacing-md;
 }
 
@@ -71,16 +76,19 @@ defineProps<IWeatherCardProps>();
 }
 
 .weather-card__main {
-  display: flex;
-  align-items: center;
-  gap: $spacing-md;
+  @include flex-row(center, flex-start, $spacing-md);
   margin-bottom: $spacing-sm;
 }
 
 .weather-card__icon {
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
+
+  @include media-min-sm {
+    width: 64px;
+    height: 64px;
+  }
 }
 
 .weather-card__temp {
@@ -90,9 +98,7 @@ defineProps<IWeatherCardProps>();
 }
 
 .weather-card__temp-block {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  @include flex-col(stretch, flex-start, 2px);
 }
 
 .weather-card__feels {
@@ -107,15 +113,11 @@ defineProps<IWeatherCardProps>();
 }
 
 .weather-card__details {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-xs;
+  @include flex-col(stretch, flex-start, $spacing-xs);
 }
 
 .weather-card__detail {
-  display: flex;
-  align-items: center;
-  gap: $spacing-xs;
+  @include flex-row(center, flex-start, $spacing-xs);
   @include font-size($font-size-xs);
   color: $color-text-regular;
 

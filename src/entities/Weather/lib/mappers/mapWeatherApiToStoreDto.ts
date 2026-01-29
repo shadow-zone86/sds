@@ -7,13 +7,17 @@ import type { IWeatherStoreDto } from '../../model/types.dto';
 
 const OPENWEATHER_ICON_BASE = 'https://openweathermap.org/img/wn';
 
+/** Единица температуры: при units=metric API возвращает Цельсий */
+const TEMP_UNIT = '°C';
+
 export function mapWeatherApiToStoreDto(
   api: ICurrentWeatherApiResponse | null | undefined
 ): IWeatherStoreDto | null {
   if (!api) return null;
 
-  const description = api.weather?.[0]?.description ?? '';
-  const icon = api.weather?.[0]?.icon ?? '';
+  const weatherList = Array.isArray(api.weather) ? api.weather : [];
+  const description = weatherList[0]?.description ?? '';
+  const icon = weatherList[0]?.icon ?? '';
   const iconUrl = icon ? `${OPENWEATHER_ICON_BASE}/${icon}@2x.png` : '';
   const windSpeedText =
     api.wind?.speed != null ? `${api.wind.speed} м/с` : '—';
@@ -23,7 +27,7 @@ export function mapWeatherApiToStoreDto(
       longitude: api.coord.lon,
       latitude: api.coord.lat,
     },
-    weather: api.weather.map((weatherCondition: IWeatherConditionApi) => ({
+    weather: weatherList.map((weatherCondition: IWeatherConditionApi) => ({
       id: weatherCondition.id,
       main: weatherCondition.main,
       description: weatherCondition.description,
@@ -63,6 +67,7 @@ export function mapWeatherApiToStoreDto(
     description,
     iconUrl,
     windSpeedText,
+    tempUnit: TEMP_UNIT,
     tempRounded: Math.round(api.main.temp),
     feelsLikeRounded: Math.round(api.main.feels_like),
   };

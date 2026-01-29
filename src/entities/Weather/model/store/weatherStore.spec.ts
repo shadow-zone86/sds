@@ -53,7 +53,7 @@ describe('weatherStore', () => {
     expect(store.error).toBeNull();
   });
 
-  it('fetch заполняет поля отображения из маппера (description, iconUrl, windSpeedText, tempRounded, feelsLikeRounded)', async () => {
+  it('fetch заполняет поля отображения из маппера (description, iconUrl, windSpeedText, tempUnit, tempRounded, feelsLikeRounded)', async () => {
     const store = useWeatherStore();
     const mockGet = container.resolve<IGetCurrentWeatherService>(
       WEATHER_TOKENS.GetCurrentWeatherService
@@ -65,6 +65,7 @@ describe('weatherStore', () => {
     expect(store.weather?.description).toBe('снег');
     expect(store.weather?.iconUrl).toBe('https://openweathermap.org/img/wn/13n@2x.png');
     expect(store.weather?.windSpeedText).toBe('—');
+    expect(store.weather?.tempUnit).toBe('°C');
     expect(store.weather?.tempRounded).toBe(-10);
     expect(store.weather?.feelsLikeRounded).toBe(-15);
   });
