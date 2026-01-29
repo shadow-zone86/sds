@@ -59,7 +59,7 @@ describe('getCurrentPosition', () => {
     });
   });
 
-  it('resolves with latitude and longitude on success', async () => {
+  it('резолвится с latitude и longitude при успехе', async () => {
     mockSuccess(55.75, 37.62);
 
     const result = await getCurrentPosition();
@@ -76,7 +76,7 @@ describe('getCurrentPosition', () => {
     );
   });
 
-  it('merges custom options with defaults', async () => {
+  it('объединяет пользовательские опции с опциями по умолчанию', async () => {
     mockSuccess(0, 0);
 
     await getCurrentPosition({ timeout: 5000, maximumAge: 0 });
@@ -92,7 +92,7 @@ describe('getCurrentPosition', () => {
     );
   });
 
-  it('rejects with message when geolocation is not supported', async () => {
+  it('отклоняет с сообщением, когда геолокация не поддерживается', async () => {
     Object.defineProperty(navigator, 'geolocation', {
       value: undefined,
       writable: true,
@@ -104,7 +104,7 @@ describe('getCurrentPosition', () => {
     );
   });
 
-  it('rejects with message on PERMISSION_DENIED (code 1)', async () => {
+  it('отклоняет с сообщением при PERMISSION_DENIED (код 1)', async () => {
     mockError(1);
 
     await expect(getCurrentPosition()).rejects.toThrow(
@@ -112,7 +112,7 @@ describe('getCurrentPosition', () => {
     );
   });
 
-  it('rejects with message on POSITION_UNAVAILABLE (code 2)', async () => {
+  it('отклоняет с сообщением при POSITION_UNAVAILABLE (код 2)', async () => {
     mockError(2);
 
     await expect(getCurrentPosition()).rejects.toThrow(
@@ -120,7 +120,7 @@ describe('getCurrentPosition', () => {
     );
   });
 
-  it('rejects with message on TIMEOUT (code 3)', async () => {
+  it('отклоняет с сообщением при TIMEOUT (код 3)', async () => {
     mockError(3);
 
     await expect(getCurrentPosition()).rejects.toThrow(
@@ -128,7 +128,7 @@ describe('getCurrentPosition', () => {
     );
   });
 
-  it('rejects with generic message for unknown error code', async () => {
+  it('отклоняет с общим сообщением для неизвестного кода ошибки', async () => {
     mockError(0);
 
     await expect(getCurrentPosition()).rejects.toThrow(

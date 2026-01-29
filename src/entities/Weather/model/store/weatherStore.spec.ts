@@ -29,14 +29,14 @@ describe('weatherStore', () => {
     container.registerSingleton(WEATHER_TOKENS.GetCurrentWeatherService, mockService);
   });
 
-  it('has initial state', () => {
+  it('имеет начальное состояние', () => {
     const store = useWeatherStore();
     expect(store.weather).toBeNull();
     expect(store.isLoading).toBe(false);
     expect(store.error).toBeNull();
   });
 
-  it('fetch sets weather on success', async () => {
+  it('fetch устанавливает погоду при успехе', async () => {
     const store = useWeatherStore();
     const mockGet = container.resolve<IGetCurrentWeatherService>(
       WEATHER_TOKENS.GetCurrentWeatherService
@@ -53,7 +53,7 @@ describe('weatherStore', () => {
     expect(store.error).toBeNull();
   });
 
-  it('fetch sets display fields from mapper (description, iconUrl, windSpeedText, tempRounded, feelsLikeRounded)', async () => {
+  it('fetch заполняет поля отображения из маппера (description, iconUrl, windSpeedText, tempRounded, feelsLikeRounded)', async () => {
     const store = useWeatherStore();
     const mockGet = container.resolve<IGetCurrentWeatherService>(
       WEATHER_TOKENS.GetCurrentWeatherService
@@ -69,7 +69,7 @@ describe('weatherStore', () => {
     expect(store.weather?.feelsLikeRounded).toBe(-15);
   });
 
-  it('fetch sets error on failure', async () => {
+  it('fetch устанавливает error при ошибке', async () => {
     const store = useWeatherStore();
     const mockGet = container.resolve<IGetCurrentWeatherService>(
       WEATHER_TOKENS.GetCurrentWeatherService
@@ -83,7 +83,7 @@ describe('weatherStore', () => {
     expect(store.isLoading).toBe(false);
   });
 
-  it('clear resets weather and error', async () => {
+  it('clear сбрасывает weather и error', async () => {
     const store = useWeatherStore();
     const mockGet = container.resolve<IGetCurrentWeatherService>(
       WEATHER_TOKENS.GetCurrentWeatherService
@@ -98,7 +98,7 @@ describe('weatherStore', () => {
     expect(store.error).toBeNull();
   });
 
-  it('fetch passes params to service', async () => {
+  it('fetch передаёт параметры в сервис', async () => {
     const store = useWeatherStore();
     const mockGet = container.resolve<IGetCurrentWeatherService>(
       WEATHER_TOKENS.GetCurrentWeatherService

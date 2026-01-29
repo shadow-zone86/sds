@@ -2,33 +2,33 @@ import { describe, it, expect } from '@jest/globals';
 import { normalizeApiError } from './normalizeApiError';
 
 describe('normalizeApiError', () => {
-  it('returns message from error.response.data.message', () => {
+  it('возвращает сообщение из error.response.data.message', () => {
     const error = {
       response: { data: { message: 'Invalid API key' } },
     };
     expect(normalizeApiError(error)).toBe('Invalid API key');
   });
 
-  it('returns error.message for Error instance', () => {
+  it('возвращает error.message для экземпляра Error', () => {
     expect(normalizeApiError(new Error('City not found'))).toBe('City not found');
   });
 
-  it('returns network message for network errors', () => {
+  it('возвращает сообщение о сети для сетевых ошибок', () => {
     expect(normalizeApiError(new Error('Network error'))).toBe('Проверьте подключение к интернету');
     expect(normalizeApiError(new Error('Network Error'))).toBe('Проверьте подключение к интернету');
   });
 
-  it('returns default message for null/undefined', () => {
+  it('возвращает сообщение по умолчанию для null/undefined', () => {
     expect(normalizeApiError(null)).toBe('Ошибка запроса');
     expect(normalizeApiError(undefined)).toBe('Ошибка запроса');
   });
 
-  it('returns default message for error without message', () => {
+  it('возвращает сообщение по умолчанию для ошибки без message', () => {
     expect(normalizeApiError({})).toBe('Ошибка запроса');
     expect(normalizeApiError({ response: {} })).toBe('Ошибка запроса');
   });
 
-  it('prefers response.data.message over Error.message', () => {
+  it('предпочитает response.data.message вместо Error.message', () => {
     const error = Object.assign(new Error('fallback'), {
       response: { data: { message: 'API message' } },
     });

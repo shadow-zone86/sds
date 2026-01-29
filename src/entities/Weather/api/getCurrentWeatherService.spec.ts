@@ -19,7 +19,7 @@ describe('GetCurrentWeatherService', () => {
   });
 
   describe('get', () => {
-    it('calls API with cityQuery when params have cityQuery', async () => {
+    it('вызывает API с cityQuery при наличии cityQuery в params', async () => {
       const response = {
         data: {
           coord: { lon: 0, lat: 0 },
@@ -52,7 +52,7 @@ describe('GetCurrentWeatherService', () => {
       );
     });
 
-    it('calls API with lat/lon when params have latitude/longitude', async () => {
+    it('вызывает API с lat/lon при наличии latitude/longitude в params', async () => {
       const response = {
         data: {
           coord: { lon: 37.62, lat: 55.75 },
@@ -83,7 +83,7 @@ describe('GetCurrentWeatherService', () => {
       );
     });
 
-    it('returns response data on success', async () => {
+    it('возвращает данные ответа при успехе', async () => {
       const data = {
         coord: { lon: 37.62, lat: 55.75 },
         weather: [{ id: 600, main: 'Snow', description: 'снег', icon: '13n' }],
@@ -103,7 +103,7 @@ describe('GetCurrentWeatherService', () => {
       expect(result).toEqual(data);
     });
 
-    it('throws Error with normalized message on API error', async () => {
+    it('бросает Error с нормализованным сообщением при ошибке API', async () => {
       mockedAxiosGet.mockRejectedValue({
         response: { data: { message: 'Invalid API key' } },
       });

@@ -12,7 +12,7 @@ describe('DI container', () => {
   });
 
   describe('registerSingleton / resolve', () => {
-    it('returns registered singleton by token', () => {
+    it('возвращает зарегистрированный синглтон по токену', () => {
       const token = createToken('Test.Singleton');
       const instance = { id: 1 };
       container.registerSingleton(token, instance);
@@ -21,7 +21,7 @@ describe('DI container', () => {
   });
 
   describe('registerFactory / resolve', () => {
-    it('invokes factory and returns new instance each time', () => {
+    it('вызывает фабрику и возвращает новый экземпляр каждый раз', () => {
       const token = createToken('Test.Factory');
       let count = 0;
       container.registerFactory(token, () => ({ id: ++count }));
@@ -31,13 +31,13 @@ describe('DI container', () => {
   });
 
   describe('resolve', () => {
-    it('returns undefined for unknown token', () => {
+    it('возвращает undefined для неизвестного токена', () => {
       expect(container.resolve(createToken('Unknown'))).toBeUndefined();
     });
   });
 
   describe('createToken', () => {
-    it('returns same symbol for same description', () => {
+    it('возвращает один и тот же symbol для одного описания', () => {
       const t1 = createToken('Same');
       const t2 = createToken('Same');
       expect(t1).toBe(t2);
@@ -45,41 +45,41 @@ describe('DI container', () => {
   });
 
   describe('resolveOr', () => {
-    it('returns resolved value when registered', () => {
+    it('возвращает зарезолвленное значение при регистрации', () => {
       const token = createToken('Test.Or');
       container.registerSingleton(token, 'registered');
       const fallback = () => 'fallback';
       expect(resolveOr(token, fallback)).toBe('registered');
     });
 
-    it('returns fallback when not registered', () => {
+    it('возвращает fallback при отсутствии регистрации', () => {
       const token = createToken('Test.Or.Missing');
       expect(resolveOr(token, () => 'fallback')).toBe('fallback');
     });
   });
 
   describe('resolveRequired', () => {
-    it('returns resolved value when registered', () => {
+    it('возвращает зарезолвленное значение при регистрации', () => {
       const token = createToken('Test.Required');
       container.registerSingleton(token, 42);
       expect(resolveRequired<number>(token)).toBe(42);
     });
 
-    it('throws when not registered', () => {
+    it('бросает ошибку при отсутствии регистрации', () => {
       const token = createToken('Test.Required.Missing');
       expect(() => resolveRequired(token)).toThrow(
         /DI: dependency not found for token/
       );
     });
 
-    it('uses custom error message when provided', () => {
+    it('использует пользовательское сообщение об ошибке при передаче', () => {
       const token = createToken('Test.Required.Custom');
       expect(() => resolveRequired(token, 'Custom error')).toThrow('Custom error');
     });
   });
 
   describe('clear', () => {
-    it('removes all registrations', () => {
+    it('удаляет все регистрации', () => {
       const token = createToken('Test.Clear');
       container.registerSingleton(token, 'value');
       container.clear();
