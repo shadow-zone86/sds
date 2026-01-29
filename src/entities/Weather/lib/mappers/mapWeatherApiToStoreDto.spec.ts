@@ -70,14 +70,21 @@ describe('mapWeatherApiToStoreDto', () => {
     expect(result?.wind).toBeUndefined();
   });
 
-  it('заполняет поля отображения: description, iconUrl, windSpeedText, tempUnit, tempRounded, feelsLikeRounded', () => {
+  it('заполняет поля отображения: description, iconUrl, windSpeedText, humidityText, tempUnit, tempRounded, feelsLikeRounded', () => {
     const result = mapWeatherApiToStoreDto(minimalApiResponse);
     expect(result?.description).toBe('снег');
     expect(result?.iconUrl).toBe('https://openweathermap.org/img/wn/13n@2x.png');
     expect(result?.windSpeedText).toBe('—');
+    expect(result?.humidityText).toBe('78%');
     expect(result?.tempUnit).toBe('°C');
     expect(result?.tempRounded).toBe(-10);
     expect(result?.feelsLikeRounded).toBe(-15);
+  });
+
+  it('возвращает humidityText "—" при отсутствии humidity', () => {
+    const withoutHumidity = { ...minimalApiResponse, main: { ...minimalApiResponse.main, humidity: undefined } };
+    const result = mapWeatherApiToStoreDto(withoutHumidity as unknown as ICurrentWeatherApiResponse);
+    expect(result?.humidityText).toBe('—');
   });
 
   it('форматирует windSpeedText при наличии wind', () => {

@@ -12,8 +12,8 @@
         class="weather-card__icon"
       >
       <div class="weather-card__temp-block">
-        <span class="weather-card__temp">{{ weather.tempRounded }} {{ weather.tempUnit }}</span>
-        <span class="weather-card__feels">Ощущается {{ weather.feelsLikeRounded }} {{ weather.tempUnit }}</span>
+        <span class="weather-card__temp">{{ `${weather.tempRounded} ${weather.tempUnit}` }}</span>
+        <span class="weather-card__feels">{{ `Ощущается ${weather.feelsLikeRounded} ${weather.tempUnit}` }}</span>
       </div>
     </div>
     <p class="weather-card__description">
@@ -22,11 +22,11 @@
     <div class="weather-card__details">
       <div class="weather-card__detail">
         <el-icon><component :is="HumidityIcon" /></el-icon>
-        <span>Влажность: {{ weather.main.humidity }}%</span>
+        <span>{{ `Влажность: ${weather.humidityText}` }}</span>
       </div>
       <div class="weather-card__detail">
         <el-icon><component :is="WindIcon" /></el-icon>
-        <span>Ветер: {{ weather.windSpeedText }}</span>
+        <span>{{ `Ветер: ${weather.windSpeedText}` }}</span>
       </div>
     </div>
   </div>
