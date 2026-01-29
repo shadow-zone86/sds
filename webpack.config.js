@@ -2,6 +2,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
+import CopyPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { VueLoaderPlugin } from 'vue-loader';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
@@ -84,6 +85,11 @@ const baseConfig = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'index.html'),
       inject: 'body',
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: path.resolve(__dirname, 'public'), to: '.', noErrorOnMissing: true },
+      ],
     }),
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
