@@ -5,8 +5,16 @@ import { merge } from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { VueLoaderPlugin } from 'vue-loader';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const OPENWEATHERMAP_API_KEY =
+  process.env.OPENWEATHERMAP_API_KEY ?? '5a666d94c7358d45f0298d0e5307d1bc';
+const OPENWEATHERMAP_BASE =
+  process.env.OPENWEATHERMAP_BASE ?? 'https://api.openweathermap.org/data/2.5';
 
 const baseConfig = {
   entry: './src/main.ts',
@@ -81,6 +89,9 @@ const baseConfig = {
     new webpack.DefinePlugin({
       __VUE_OPTIONS_API__: true,
       __VUE_PROD_DEVTOOLS__: false,
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
+      'process.env.OPENWEATHERMAP_API_KEY': JSON.stringify(OPENWEATHERMAP_API_KEY),
+      'process.env.OPENWEATHERMAP_BASE': JSON.stringify(OPENWEATHERMAP_BASE),
     }),
   ],
   optimization: {

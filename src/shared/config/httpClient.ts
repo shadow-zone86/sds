@@ -1,8 +1,9 @@
 import axios, { type AxiosInstance } from 'axios';
+import { normalizeApiError } from '../lib/normalization/normalizeApiError';
 
 const baseURL = (typeof process !== 'undefined' && process.env?.API_BASE) || '/api';
 
-export const apiClient: AxiosInstance = axios.create({
+export const httpClient: AxiosInstance = axios.create({
   baseURL,
   timeout: 10000,
   headers: {
@@ -10,10 +11,7 @@ export const apiClient: AxiosInstance = axios.create({
   },
 });
 
-apiClient.interceptors.response.use(
+httpClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    // Global error handling
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(new Error(normalizeApiError(error)))
 );
