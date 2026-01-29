@@ -1,23 +1,25 @@
-import axios from 'axios';
-import { normalizeApiError } from '@/shared/lib/normalization/normalizeApiError';
-import {
-  getOpenWeatherBaseUrl,
-  getOpenWeatherApiKey,
-} from '@/shared/config/openWeatherConfig';
+import type { AxiosInstance } from 'axios';
+import type { IOpenWeatherConfig } from '@/shared/config/openWeatherConfig';
 import type {
   ICurrentWeatherApiResponse,
   IGetCurrentWeatherParams,
   ICurrentWeatherByCoordsParams,
   IGetCurrentWeatherService,
 } from '../model/types';
+import { REQUEST_TIMEOUT_MS } from '../config/constants';
 
 export default class GetCurrentWeatherService implements IGetCurrentWeatherService {
+  constructor(
+    private readonly config: IOpenWeatherConfig,
+    private readonly httpClient: AxiosInstance
+  ) {}
+
   async get(params: IGetCurrentWeatherParams): Promise<ICurrentWeatherApiResponse> {
     const { units = 'metric', lang = 'ru' } = params;
     const requestParams: Record<string, string | number> = {
       units,
       lang,
-      appid: getOpenWeatherApiKey(),
+      appid: this.config.apiKey,
     };
 
     if (this.isByCoords(params)) {
@@ -27,15 +29,11 @@ export default class GetCurrentWeatherService implements IGetCurrentWeatherServi
       requestParams.q = params.cityQuery;
     }
 
-    try {
-      const { data } = await axios.get<ICurrentWeatherApiResponse>(
-        `${getOpenWeatherBaseUrl()}/weather`,
-        { params: requestParams, timeout: 10000 }
-      );
-      return data;
-    } catch (error: unknown) {
-      throw new Error(normalizeApiError(error));
-    }
+    const { data } = await this.httpClient.get<ICurrentWeatherApiResponse>('/weather', {
+      params: requestParams,
+      timeout: REQUEST_TIMEOUT_MS,
+    });
+    return data;
   }
 
   private isByCoords(

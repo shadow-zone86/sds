@@ -23,11 +23,12 @@ Vue 3 (Composition API) + TypeScript + Webpack 5 + Axios + Element Plus + Pinia.
 ## Реализованный функционал
 
 - **Виджет погоды** (`widgets/weather`): заголовок, форма поиска по городу, состояния загрузки / ошибки / карточка погоды / пустое состояние.
-- **Сущность Weather** (`entities/Weather`): API OpenWeatherMap (текущая погода по городу и по координатам), маппинг ответа в DTO, Pinia-сторе, UI-компоненты (карточка, лоадер, ошибка, подсказка).
+- **Сущность Weather** (`entities/Weather`): API OpenWeatherMap (текущая погода по городу и по координатам), маппинг ответа в DTO, Pinia-сторе, UI-компоненты (карточка, лоадер, ошибка, подсказка). Сервис погоды получает HTTP-клиент и конфиг через конструктор (DI), константы (таймаут, иконки, единицы) — в `entities/Weather/config`.
 - **Фича поиска города** (`features/search-city`): форма ввода города, нормализация запроса, вызов стора.
 - **Инициализация по геолокации**: при монтировании виджета запрос геолокации и загрузка погоды по координатам (виджет `useInitWeatherByGeolocation`).
-- **DI-контейнер** (`shared/lib/di`): регистрация фабрик/синглтонов, токены, `resolveRequired` / `resolveOr`; провайдер погоды регистрирует `GetCurrentWeatherService` в `main.ts`.
-- **Общие утилиты**: нормализация ошибок API, строк, геолокация (`getCurrentPosition`), конфиг OpenWeatherMap.
+- **DI-контейнер** (`shared/lib/di`): регистрация фабрик/синглтонов, токены, `resolveRequired` / `resolveOr`. Провайдер погоды в app создаёт конфиг (`getOpenWeatherConfig`), HTTP-клиент через `createHttpClient`, сервис через фабрику и регистрирует синглтон в `main.ts`.
+- **HTTP-клиент** (`shared/config/httpClient`): фабрика `createHttpClient(options)` — единый Axios-инстанс с заданным baseURL и перехватчиком ошибок (`normalizeApiError`); entity не импортирует axios напрямую.
+- **Общие утилиты**: нормализация ошибок API, строк, геолокация (`getCurrentPosition`), конфиг OpenWeatherMap (`IOpenWeatherConfig`, `getOpenWeatherConfig`).
 
 ## FSD-структура
 
