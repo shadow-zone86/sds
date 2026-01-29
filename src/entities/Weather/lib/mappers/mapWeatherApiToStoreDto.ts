@@ -4,11 +4,7 @@
 
 import type { ICurrentWeatherApiResponse, IWeatherConditionApi } from '../../model/types';
 import type { IWeatherStoreDto } from '../../model/types.dto';
-
-const OPENWEATHER_ICON_BASE = 'https://openweathermap.org/img/wn';
-
-/** Единица температуры: при units=metric API возвращает Цельсий */
-const TEMP_UNIT = '°C';
+import { OPENWEATHER_ICON_BASE, TEMP_UNIT } from '../../config/constants';
 
 export function mapWeatherApiToStoreDto(
   api: ICurrentWeatherApiResponse | null | undefined
@@ -21,6 +17,8 @@ export function mapWeatherApiToStoreDto(
   const iconUrl = icon ? `${OPENWEATHER_ICON_BASE}/${icon}@2x.png` : '';
   const windSpeedText =
     api.wind?.speed != null ? `${api.wind.speed} м/с` : '—';
+  const humidityText =
+    api.main.humidity != null ? `${api.main.humidity}%` : '—';
 
   return {
     coord: {
@@ -67,6 +65,7 @@ export function mapWeatherApiToStoreDto(
     description,
     iconUrl,
     windSpeedText,
+    humidityText,
     tempUnit: TEMP_UNIT,
     tempRounded: Math.round(api.main.temp),
     feelsLikeRounded: Math.round(api.main.feels_like),

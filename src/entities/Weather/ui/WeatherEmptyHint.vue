@@ -1,10 +1,20 @@
 <template>
   <p class="weather-empty-hint">
-    Введите город или разрешите доступ к геолокации
+    {{ message }}
   </p>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { DEFAULT_MESSAGE } from '../config/constants';
+
+interface IWeatherEmptyHintProps {
+  message?: string;
+}
+
+withDefaults(defineProps<IWeatherEmptyHintProps>(), {
+  message: () => DEFAULT_MESSAGE,
+});
+</script>
 
 <style lang="scss" scoped>
 .weather-empty-hint {

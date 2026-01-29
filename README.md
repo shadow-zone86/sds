@@ -1,7 +1,9 @@
 # SDS
 
-Vue 3 (Composition API) + TypeScript + Webpack 5 + Axios + Element Plus.
+Vue 3 (Composition API) + TypeScript + Webpack 5 + Axios + Element Plus + Pinia.
 Архитектура: **FSD** (Feature-Sliced Design).
+
+Приложение с виджетом погоды: поиск по городу и автоматическая подстановка по геолокации (OpenWeatherMap API).
 
 ## Стек
 
@@ -10,25 +12,49 @@ Vue 3 (Composition API) + TypeScript + Webpack 5 + Axios + Element Plus.
 - **Webpack 5**
 - **Axios**
 - **Element Plus**
+- **Pinia** (состояние)
+- **Vue Router**
 - **SCSS** (глобальные переменные, миксины flex / media / spacing, палитра)
 - **Jest** (тесты)
 - **ESLint** + **vue-tsc** (линт и проверка типов)
 - **Husky** + **lint-staged** (pre-commit: линт, type-check, тесты, build)
 - **webpack-bundle-analyzer** (анализ бандла)
 
+## Реализованный функционал
+
+- **Виджет погоды** (`widgets/weather`): заголовок, форма поиска по городу, состояния загрузки / ошибки / карточка погоды / пустое состояние.
+- **Сущность Weather** (`entities/Weather`): API OpenWeatherMap (текущая погода по городу и по координатам), маппинг ответа в DTO, Pinia-сторе, UI-компоненты (карточка, лоадер, ошибка, подсказка).
+- **Фича поиска города** (`features/search-city`): форма ввода города, нормализация запроса, вызов стора.
+- **Инициализация по геолокации**: при монтировании виджета запрос геолокации и загрузка погоды по координатам (виджет `useInitWeatherByGeolocation`).
+- **DI-контейнер** (`shared/lib/di`): регистрация фабрик/синглтонов, токены, `resolveRequired` / `resolveOr`; провайдер погоды регистрирует `GetCurrentWeatherService` в `main.ts`.
+- **Общие утилиты**: нормализация ошибок API, строк, геолокация (`getCurrentPosition`), конфиг OpenWeatherMap.
+
 ## FSD-структура
 
 ```
 src/
-├── app/          # Инициализация приложения, роутер, провайдеры
-├── pages/        # Страницы и роуты
-├── widgets/      # Композитные блоки для страниц
-├── features/     # Действия пользователя, фичи
-├── entities/      # Бизнес-сущности
-└── shared/        # API, UI-кит, стили, утилиты, тест-сетап
+├── app/          # Инициализация приложения, роутер, DI-провайдеры (weather)
+├── pages/        # Страницы и роуты (main → WeatherWidget)
+├── widgets/      # weather: виджет погоды + useInitWeatherByGeolocation
+├── features/     # search-city: форма поиска по городу
+├── entities/     # Weather: API, store, mappers, UI (карточка, лоадер, ошибка, пусто)
+└── shared/       # API-конфиг, DI-контейнер, хелперы, нормализация, стили, тест-сетап
 ```
 
 Алиасы: `@app`, `@pages`, `@widgets`, `@features`, `@entities`, `@shared`, `@`.
+
+## Окружение
+
+Скопируйте `.env.example` в `.env` и задайте ключ OpenWeatherMap:
+
+```bash
+cp .env.example .env
+```
+
+В `.env`:
+
+- `OPENWEATHERMAP_API_KEY` — обязательный, ключ с [OpenWeatherMap](https://openweathermap.org/api).
+- `OPENWEATHERMAP_BASE` — опционально, по умолчанию `https://api.openweathermap.org/data/2.5`.
 
 ## Стили (SCSS)
 
@@ -67,6 +93,8 @@ src/
 
 ```bash
 npm install
+cp .env.example .env
+# Заполните OPENWEATHERMAP_API_KEY в .env
 npm run dev
 ```
 
