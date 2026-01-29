@@ -1,6 +1,6 @@
 # SDS
 
-Vue 3 (Composition API) + TypeScript + Webpack 5 + Axios + Element Plus.  
+Vue 3 (Composition API) + TypeScript + Webpack 5 + Axios + Element Plus.
 Архитектура: **FSD** (Feature-Sliced Design).
 
 ## Стек
@@ -58,10 +58,10 @@ src/
 
 При `git commit` выполняются:
 
-1. **lint-staged**: ESLint и vue-tsc для изменённых файлов  
-2. **type-check**: полная проверка типов  
-3. **test**: Jest  
-4. **build**: production-сборка  
+1. **lint-staged**: ESLint и vue-tsc для изменённых файлов
+2. **type-check**: полная проверка типов
+3. **test**: Jest
+4. **build**: production-сборка
 
 ## Установка
 
