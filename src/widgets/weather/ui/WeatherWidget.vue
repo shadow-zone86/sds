@@ -7,80 +7,33 @@
     <SearchCityForm class="weather-widget__search" />
 
     <div
-      v-if="weatherStore.isLoading"
-      class="weather-widget__loading"
+      class="weather-widget__state"
     >
-      <el-icon class="is-loading weather-widget__spinner">
-        <component :is="LoadingIcon" />
-      </el-icon>
-      <span>Загрузка...</span>
+      <WeatherLoading v-if="weatherStore.isLoading" />
+      <WeatherError
+        v-else-if="weatherStore.error"
+        :message="weatherStore.error"
+      />
+      <WeatherCard
+        v-else-if="weatherStore.weather"
+        :weather="weatherStore.weather"
+      />
+      <WeatherEmptyHint v-else />
     </div>
-
-    <div
-      v-else-if="weatherStore.error"
-      class="weather-widget__error"
-    >
-      <el-icon class="weather-widget__error-icon">
-        <component :is="WarningIcon" />
-      </el-icon>
-      <p>{{ weatherStore.error }}</p>
-    </div>
-
-    <div
-      v-else-if="weatherStore.weather"
-      class="weather-widget__card"
-    >
-      <div class="weather-widget__card-header">
-        <span class="weather-widget__city">{{ weatherStore.weather?.name }}</span>
-        <span class="weather-widget__country">{{ weatherStore.weather?.sys.country }}</span>
-      </div>
-      <div class="weather-widget__card-main">
-        <img
-          v-if="weatherStore.weather?.iconUrl"
-          :src="weatherStore.weather?.iconUrl"
-          :alt="weatherStore.weather?.description"
-          class="weather-widget__icon"
-        >
-        <div class="weather-widget__temp-block">
-          <span class="weather-widget__temp">{{ weatherStore.weather?.tempRounded }}°</span>
-          <span class="weather-widget__feels">Ощущается {{ weatherStore.weather?.feelsLikeRounded }}°</span>
-        </div>
-      </div>
-      <p class="weather-widget__description">
-        {{ weatherStore.weather?.description }}
-      </p>
-      <div class="weather-widget__details">
-        <div class="weather-widget__detail">
-          <el-icon><component :is="HumidityIcon" /></el-icon>
-          <span>Влажность: {{ weatherStore.weather?.main.humidity }}%</span>
-        </div>
-        <div class="weather-widget__detail">
-          <el-icon><component :is="WindIcon" /></el-icon>
-          <span>Ветер: {{ weatherStore.weather?.windSpeedText }}</span>
-        </div>
-      </div>
-    </div>
-
-    <p
-      v-else
-      class="weather-widget__hint"
-    >
-      Введите город или разрешите доступ к геолокации
-    </p>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import {
-  Loading as LoadingIcon,
-  Warning as WarningIcon,
-  Drizzling as HumidityIcon,
-  WindPower as WindIcon,
-} from '@element-plus/icons-vue';
 import { SearchCityForm } from '@features/search-city';
-import { useWeatherStore } from '@entities/Weather';
-import { getCurrentPosition } from '@/shared/lib/helpers/getCurrentPosition';
+import { useInitWeatherByGeolocation } from '../lib/useInitWeatherByGeolocation';
+import {
+  useWeatherStore,
+  WeatherCard,
+  WeatherLoading,
+  WeatherError,
+  WeatherEmptyHint,
+} from '@entities/Weather';
 
 interface IWeatherWidgetProps {
   title?: string;
@@ -90,17 +43,10 @@ withDefaults(defineProps<IWeatherWidgetProps>(), { title: 'Погода' });
 
 const weatherStore = useWeatherStore();
 
-async function initByGeolocation(): Promise<void> {
-  try {
-    const { latitude, longitude } = await getCurrentPosition();
-    await weatherStore.fetch({ latitude, longitude });
-  } catch (e) {
-    weatherStore.setError(e instanceof Error ? e.message : 'Ошибка геолокации');
-  }
-}
+const { init: initWeatherByGeolocation } = useInitWeatherByGeolocation();
 
 onMounted(() => {
-  initByGeolocation();
+  initWeatherByGeolocation();
 });
 </script>
 
@@ -113,122 +59,15 @@ onMounted(() => {
   &__title {
     margin: 0;
     color: $color-primary;
-    font-size: 1.75rem;
+    @include font-size($font-size-lg);
   }
 
   &__search {
     margin-top: $spacing-md;
   }
 
-  &__loading {
-    @include flex-col(center, center, $spacing-sm);
+  &__state {
     margin-top: $spacing-xl;
-    color: $color-text-secondary;
-  }
-
-  &__spinner {
-    font-size: 32px;
-  }
-
-  &__error {
-    margin-top: $spacing-xl;
-    padding: $spacing-md;
-    text-align: center;
-    color: var(--el-color-danger);
-    background: var(--el-color-danger-light-9);
-    border-radius: var(--el-border-radius-base);
-  }
-
-  &__error-icon {
-    font-size: 24px;
-    margin-bottom: $spacing-xs;
-  }
-
-  &__card {
-    margin-top: $spacing-xl;
-    padding: $spacing-xl;
-    min-width: 280px;
-    background: var(--el-fill-color-light);
-    border-radius: var(--el-border-radius-base);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  }
-
-  &__card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: $spacing-md;
-  }
-
-  &__city {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: $color-text-primary;
-  }
-
-  &__country {
-    font-size: 0.875rem;
-    color: $color-text-secondary;
-  }
-
-  &__card-main {
-    display: flex;
-    align-items: center;
-    gap: $spacing-md;
-    margin-bottom: $spacing-sm;
-  }
-
-  &__icon {
-    width: 64px;
-    height: 64px;
-    object-fit: contain;
-  }
-
-  &__temp {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: $color-text-primary;
-  }
-
-  &__temp-block {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  &__feels {
-    font-size: 0.875rem;
-    color: $color-text-secondary;
-  }
-
-  &__description {
-    margin: 0 0 $spacing-md;
-    text-transform: capitalize;
-    color: $color-text-regular;
-  }
-
-  &__details {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-xs;
-  }
-
-  &__detail {
-    display: flex;
-    align-items: center;
-    gap: $spacing-xs;
-    font-size: 0.875rem;
-    color: $color-text-regular;
-
-    .el-icon {
-      color: $color-text-secondary;
-    }
-  }
-
-  &__hint {
-    margin-top: $spacing-xl;
-    color: $color-text-placeholder;
-    font-size: 0.875rem;
   }
 }
 </style>
