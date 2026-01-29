@@ -115,6 +115,9 @@ const devConfig = {
 const prodConfig: Configuration = {
   mode: 'production',
   devtool: 'source-map',
+  performance: {
+    hints: false,
+  },
 };
 
 export default (env: { analyze?: boolean } & Record<string, unknown>, argv: { mode?: string }) => {
