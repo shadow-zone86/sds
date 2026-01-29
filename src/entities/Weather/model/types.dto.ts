@@ -26,4 +26,10 @@ export interface IWeatherStoreDto {
   id: number;
   name: string;
   cod: number;
+  // Вычисленные для отображения (заполняются в mapWeatherApiToStoreDto)
+  description: string;
+  iconUrl: string;
+  windSpeedText: string;
+  tempRounded: number;
+  feelsLikeRounded: number;
 }
