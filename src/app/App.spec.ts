@@ -4,7 +4,7 @@ import App from './App.vue';
 import { router } from './router';
 
 describe('App', () => {
-  it('renders and mounts', () => {
+  it('рендерится и монтируется', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],

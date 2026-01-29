@@ -23,17 +23,17 @@ const minimalApiResponse: ICurrentWeatherApiResponse = {
 };
 
 describe('mapWeatherApiToStoreDto', () => {
-  it('returns null for null/undefined', () => {
+  it('возвращает null для null/undefined', () => {
     expect(mapWeatherApiToStoreDto(null)).toBeNull();
     expect(mapWeatherApiToStoreDto(undefined)).toBeNull();
   });
 
-  it('maps coord lon/lat to longitude/latitude', () => {
+  it('маппит coord lon/lat в longitude/latitude', () => {
     const result = mapWeatherApiToStoreDto(minimalApiResponse);
     expect(result?.coord).toEqual({ longitude: 37.62, latitude: 55.75 });
   });
 
-  it('maps main snake_case to camelCase', () => {
+  it('маппит main из snake_case в camelCase', () => {
     const result = mapWeatherApiToStoreDto(minimalApiResponse);
     expect(result?.main).toMatchObject({
       temp: -10,
@@ -45,7 +45,7 @@ describe('mapWeatherApiToStoreDto', () => {
     });
   });
 
-  it('maps weather array', () => {
+  it('маппит массив weather', () => {
     const result = mapWeatherApiToStoreDto(minimalApiResponse);
     expect(result?.weather).toHaveLength(1);
     expect(result?.weather[0]).toEqual({
@@ -56,7 +56,7 @@ describe('mapWeatherApiToStoreDto', () => {
     });
   });
 
-  it('maps optional wind when present', () => {
+  it('маппит опциональный wind при наличии', () => {
     const withWind: ICurrentWeatherApiResponse = {
       ...minimalApiResponse,
       wind: { speed: 5, deg: 180, gust: 8 },
@@ -65,12 +65,12 @@ describe('mapWeatherApiToStoreDto', () => {
     expect(result?.wind).toEqual({ speed: 5, deg: 180, gust: 8 });
   });
 
-  it('leaves wind undefined when absent', () => {
+  it('оставляет wind undefined при отсутствии', () => {
     const result = mapWeatherApiToStoreDto(minimalApiResponse);
     expect(result?.wind).toBeUndefined();
   });
 
-  it('fills display fields: description, iconUrl, windSpeedText, tempRounded, feelsLikeRounded', () => {
+  it('заполняет поля отображения: description, iconUrl, windSpeedText, tempRounded, feelsLikeRounded', () => {
     const result = mapWeatherApiToStoreDto(minimalApiResponse);
     expect(result?.description).toBe('снег');
     expect(result?.iconUrl).toBe('https://openweathermap.org/img/wn/13n@2x.png');
@@ -79,7 +79,7 @@ describe('mapWeatherApiToStoreDto', () => {
     expect(result?.feelsLikeRounded).toBe(-15);
   });
 
-  it('formats windSpeedText when wind is present', () => {
+  it('форматирует windSpeedText при наличии wind', () => {
     const withWind: ICurrentWeatherApiResponse = {
       ...minimalApiResponse,
       wind: { speed: 5.2, deg: 180 },
@@ -88,7 +88,7 @@ describe('mapWeatherApiToStoreDto', () => {
     expect(result?.windSpeedText).toBe('5.2 м/с');
   });
 
-  it('preserves id, name, cod, dt, timezone, sys', () => {
+  it('сохраняет id, name, cod, dt, timezone, sys', () => {
     const result = mapWeatherApiToStoreDto(minimalApiResponse);
     expect(result?.id).toBe(524901);
     expect(result?.name).toBe('Москва');
