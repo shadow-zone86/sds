@@ -1,0 +1,43 @@
+@use "../variables" as *;
+
+// Flex container
+@mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+  @if $gap != 0 {
+    gap: $gap;
+  }
+}
+
+// Flex center (horizontal + vertical)
+@mixin flex-center($direction: row, $gap: 0) {
+  @include flex($direction, center, center, nowrap, $gap);
+}
+
+// Flex between (space-between)
+@mixin flex-between($align: center, $gap: 0) {
+  @include flex(row, space-between, $align, nowrap, $gap);
+}
+
+// Flex column
+@mixin flex-col($align: stretch, $justify: flex-start, $gap: 0) {
+  @include flex(column, $justify, $align, nowrap, $gap);
+}
+
+// Flex row
+@mixin flex-row($align: center, $justify: flex-start, $gap: 0) {
+  @include flex(row, $justify, $align, nowrap, $gap);
+}
+
+// Flex grow
+@mixin flex-grow($grow: 1, $shrink: 0, $basis: auto) {
+  flex: $grow $shrink $basis;
+}
+
+// Flex shrink
+@mixin flex-shrink($value: 0) {
+  flex-shrink: $value;
+}

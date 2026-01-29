@@ -1,0 +1,59 @@
+// =============================================================================
+// Color palette
+// =============================================================================
+
+$color-primary: #409eff !default;
+$color-primary-light: #79bbff !default;
+$color-primary-dark: #337ecc !default;
+
+$color-success: #67c23a !default;
+$color-warning: #e6a23c !default;
+$color-danger: #f56c6c !default;
+$color-info: #909399 !default;
+
+$color-text-primary: #303133 !default;
+$color-text-regular: #606266 !default;
+$color-text-secondary: #909399 !default;
+$color-text-placeholder: #a8abb2 !default;
+$color-text-disabled: #c0c4cc !default;
+
+$color-border: #dcdfe6 !default;
+$color-border-light: #e4e7ed !default;
+$color-border-lighter: #ebeef5 !default;
+$color-border-extra-light: #f2f6fc !default;
+
+$color-bg: #ffffff !default;
+$color-bg-page: #f5f7fa !default;
+$color-bg-overlay: #ffffff !default;
+
+// =============================================================================
+// Spacing scale (base 4px)
+// =============================================================================
+
+$spacing-base: 4px !default;
+$spacing-xxs: $spacing-base !default;      // 4px
+$spacing-xs: $spacing-base * 2 !default;  // 8px
+$spacing-sm: $spacing-base * 3 !default;  // 12px
+$spacing-md: $spacing-base * 4 !default;  // 16px
+$spacing-lg: $spacing-base * 6 !default;  // 24px
+$spacing-xl: $spacing-base * 8 !default;  // 32px
+$spacing-xxl: $spacing-base * 12 !default; // 48px
+
+// =============================================================================
+// Breakpoints
+// =============================================================================
+
+$breakpoint-xs: 0 !default;
+$breakpoint-sm: 576px !default;
+$breakpoint-md: 768px !default;
+$breakpoint-lg: 992px !default;
+$breakpoint-xl: 1200px !default;
+$breakpoint-xxl: 1400px !default;
+
+// =============================================================================
+// Typography
+// =============================================================================
+
+$font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$font-size-base: 14px !default;
+$line-height-base: 1.5 !default;

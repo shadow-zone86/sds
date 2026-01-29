@@ -1,0 +1,70 @@
+@use "../variables" as *;
+
+// Margin mixins
+@mixin margin($top: null, $right: null, $bottom: null, $left: null) {
+  @if $top != null { margin-top: $top; }
+  @if $right != null { margin-right: $right; }
+  @if $bottom != null { margin-bottom: $bottom; }
+  @if $left != null { margin-left: $left; }
+}
+
+@mixin margin-x($value) {
+  margin-left: $value;
+  margin-right: $value;
+}
+
+@mixin margin-y($value) {
+  margin-top: $value;
+  margin-bottom: $value;
+}
+
+@mixin margin-all($value) {
+  margin: $value;
+}
+
+// Padding mixins
+@mixin padding($top: null, $right: null, $bottom: null, $left: null) {
+  @if $top != null { padding-top: $top; }
+  @if $right != null { padding-right: $right; }
+  @if $bottom != null { padding-bottom: $bottom; }
+  @if $left != null { padding-left: $left; }
+}
+
+@mixin padding-x($value) {
+  padding-left: $value;
+  padding-right: $value;
+}
+
+@mixin padding-y($value) {
+  padding-top: $value;
+  padding-bottom: $value;
+}
+
+@mixin padding-all($value) {
+  padding: $value;
+}
+
+$spacing-map: (
+  xxs: $spacing-xxs,
+  xs: $spacing-xs,
+  sm: $spacing-sm,
+  md: $spacing-md,
+  lg: $spacing-lg,
+  xl: $spacing-xl,
+  xxl: $spacing-xxl,
+) !default;
+
+@mixin spacing-margin($size: md) {
+  $v: map-get($spacing-map, $size);
+  @if $v { margin: $v; } @else { margin: $spacing-md; }
+}
+
+@mixin spacing-padding($size: md) {
+  $v: map-get($spacing-map, $size);
+  @if $v { padding: $v; } @else { padding: $spacing-md; }
+}
+
+@mixin gap($size: md) {
+  $v: map-get($spacing-map, $size);
+  @if $v { gap: $v; } @else { gap: $spacing-md; }
+}
