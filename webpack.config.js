@@ -4,14 +4,11 @@ import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { VueLoaderPlugin } from 'vue-loader';
-// @ts-expect-error no types
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-
-type Configuration = webpack.Configuration;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const baseConfig: Configuration = {
+const baseConfig = {
   entry: './src/main.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -100,8 +97,8 @@ const baseConfig: Configuration = {
 };
 
 const devConfig = {
-  mode: 'development' as const,
-  devtool: 'eval-cheap-module-source-map' as const,
+  mode: 'development',
+  devtool: 'eval-cheap-module-source-map',
   devServer: {
     static: {
       directory: path.join(__dirname, 'public'),
@@ -112,7 +109,7 @@ const devConfig = {
   },
 };
 
-const prodConfig: Configuration = {
+const prodConfig = {
   mode: 'production',
   devtool: 'source-map',
   performance: {
@@ -120,14 +117,13 @@ const prodConfig: Configuration = {
   },
 };
 
-export default (env: { analyze?: boolean } & Record<string, unknown>, argv: { mode?: string }) => {
+export default (env, argv) => {
   const isProd = argv.mode === 'production';
   const config = merge(baseConfig, isProd ? prodConfig : devConfig);
 
   if (env?.analyze) {
-    const c = config as Configuration;
-    c.plugins = c.plugins ?? [];
-    c.plugins.push(new BundleAnalyzerPlugin());
+    config.plugins = config.plugins ?? [];
+    config.plugins.push(new BundleAnalyzerPlugin());
   }
 
   return config;

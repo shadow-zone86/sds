@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' webpack serve --config webpack.config.ts --mode development",
-    "build": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' webpack --config webpack.config.ts --mode production",
-    "build:analyze": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' webpack --config webpack.config.ts --mode production --env analyze",
+    "dev": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' webpack serve --config webpack.config.js --mode development",
+    "build": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' webpack --config webpack.config.js --mode production",
+    "build:analyze": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' webpack --config webpack.config.js --mode production --env analyze",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .vue,.ts,.tsx,.js,.jsx --fix",
