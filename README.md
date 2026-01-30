@@ -27,7 +27,7 @@ Vue 3 (Composition API) + TypeScript + Webpack 5 + Axios + Element Plus + Pinia.
 - **Фича поиска города** (`features/search-city`): форма ввода города, нормализация запроса, вызов стора.
 - **Инициализация по геолокации**: при монтировании виджета запрос геолокации и загрузка погоды по координатам (виджет `useInitWeatherByGeolocation`).
 - **DI-контейнер** (`shared/lib/di`): регистрация фабрик/синглтонов, токены, `resolveRequired` / `resolveOr`. Провайдер погоды в app создаёт конфиг (`getOpenWeatherConfig`), HTTP-клиент через `createHttpClient`, сервис через фабрику и регистрирует синглтон в `main.ts`.
-- **HTTP-клиент** (`shared/config/httpClient`): фабрика `createHttpClient(options)` — единый Axios-инстанс с заданным baseURL и перехватчиком ошибок (`normalizeApiError`); entity не импортирует axios напрямую.
+- **HTTP-клиент** (`shared/config/httpClient`): фабрика `createHttpClient(options)` — единый Axios-инстанс с заданным baseURL и перехватчиком ошибок (`apiErrorNormalization`); entity не импортирует axios напрямую.
 - **Общие утилиты**: нормализация ошибок API, строк, геолокация (`getCurrentPosition`), конфиг OpenWeatherMap (`IOpenWeatherConfig`, `getOpenWeatherConfig`).
 
 ## FSD-структура

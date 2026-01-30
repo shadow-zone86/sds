@@ -8,7 +8,7 @@ const CITY_NOT_FOUND_MESSAGE = 'Город не найден. Проверьте
  * Одна точка обработки ошибок API: извлекает сообщение из ответа/ошибки.
  * Учитывает геолокацию, API, сетевые ошибки, «город не найден».
  */
-export function normalizeApiError(error: unknown): string {
+export function apiErrorNormalization(error: unknown): string {
   if (error && typeof error === 'object') {
     const err = error as { response?: { data?: { message?: string } }; message?: string };
     const data = err?.response?.data;

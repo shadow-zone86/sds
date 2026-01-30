@@ -42,7 +42,6 @@ function submit(): void {
 .search-city-form {
   @include flex-col(stretch, flex-start, $spacing-sm);
   width: 100%;
-  max-width: 360px;
 
   @include media-min-sm {
     @include flex-row(center, flex-start, $spacing-sm);

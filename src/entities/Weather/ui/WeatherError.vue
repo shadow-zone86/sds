@@ -25,7 +25,7 @@ defineProps<IWeatherErrorProps>();
   background: var(--el-color-danger-light-9);
   border-radius: var(--el-border-radius-base);
   width: 100%;
-  max-width: 360px;
+  max-width: 420px;
   box-sizing: border-box;
 }
 

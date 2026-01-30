@@ -16,7 +16,7 @@ import { Loading as LoadingIcon } from '@element-plus/icons-vue';
   @include flex-col(center, center, $spacing-sm);
   color: $color-text-secondary;
   width: 100%;
-  max-width: 360px;
+  max-width: 420px;
 }
 
 .weather-loading__spinner {
