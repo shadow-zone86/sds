@@ -18,7 +18,7 @@ withDefaults(defineProps<IWeatherEmptyHintProps>(), {
 
 <style lang="scss" scoped>
 .weather-empty-hint {
-  margin: 0;
+  @include margin-all(0);
   color: $color-text-placeholder;
   @include font-size($font-size-xs);
 }
