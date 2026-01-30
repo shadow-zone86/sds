@@ -19,7 +19,7 @@ defineProps<IWeatherErrorProps>();
 
 <style lang="scss" scoped>
 .weather-error {
-  padding: $spacing-md;
+  @include padding-all($spacing-md);
   text-align: center;
   color: var(--el-color-danger);
   background: var(--el-color-danger-light-9);
@@ -31,6 +31,6 @@ defineProps<IWeatherErrorProps>();
 
 .weather-error__icon {
   @include font-size($font-size-icon-sm);
-  margin-bottom: $spacing-xs;
+  @include margin($bottom: $spacing-xs);
 }
 </style>

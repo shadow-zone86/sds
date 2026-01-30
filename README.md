@@ -22,24 +22,25 @@ Vue 3 (Composition API) + TypeScript + Webpack 5 + Axios + Element Plus + Pinia.
 
 ## Реализованный функционал
 
-- **Виджет погоды** (`widgets/weather`): заголовок, форма поиска по городу, состояния загрузки / ошибки / карточка погоды / пустое состояние.
+- **Виджет погоды** (`widgets/weather`): шапка (заголовок «Погода» + logo.webp, flex space-between), форма поиска по городу, состояния загрузки / ошибки / карточка погоды / пустое состояние; единая ширина блоков через `--weather-block-max` (26.25rem).
 - **Сущность Weather** (`entities/Weather`): API OpenWeatherMap (текущая погода по городу и по координатам), маппинг ответа в DTO, Pinia-сторе, UI-компоненты (карточка, лоадер, ошибка, подсказка). Сервис погоды получает HTTP-клиент и конфиг через конструктор (DI), константы (таймаут, иконки, единицы) — в `entities/Weather/config`.
 - **Фича поиска города** (`features/search-city`): форма ввода города, нормализация запроса, вызов стора.
 - **Инициализация по геолокации**: при монтировании виджета запрос геолокации и загрузка погоды по координатам (виджет `useInitWeatherByGeolocation`).
 - **DI-контейнер** (`shared/lib/di`): регистрация фабрик/синглтонов, токены, `resolveRequired` / `resolveOr`. Провайдер погоды в app создаёт конфиг (`getOpenWeatherConfig`), HTTP-клиент через `createHttpClient`, сервис через фабрику и регистрирует синглтон в `main.ts`.
 - **HTTP-клиент** (`shared/config/httpClient`): фабрика `createHttpClient(options)` — единый Axios-инстанс с заданным baseURL и перехватчиком ошибок (`useApiErrorNormalization`); entity не импортирует axios напрямую.
 - **Общие утилиты**: composables нормализации — `useApiErrorNormalization`, `useStringNormalization`; геолокация (`getCurrentPosition`), конфиг OpenWeatherMap (`IOpenWeatherConfig`, `getOpenWeatherConfig`).
+- **PageLoader** (`shared/ui/PageLoader`): лоадер первой загрузки страницы с logo.webp, анимация прогресса по `window.load`. Конфиг в `shared/config/constants`, типы в `shared/model/types`, логика в composable `shared/lib/composables/usePageLoader` (покрыт тестами), UI в `PageLoader.vue`; проверка `document.readyState` через `useStringNormalization`, стили через миксины и палитру (`$color-bg`).
 
 ## FSD-структура
 
 ```
 src/
-├── app/          # Инициализация приложения, роутер, DI-провайдеры (weather)
+├── app/          # Инициализация приложения, роутер, DI-провайдеры (weather), PageLoader
 ├── pages/        # Страницы и роуты (main → WeatherWidget)
 ├── widgets/      # weather: виджет погоды + useInitWeatherByGeolocation
 ├── features/     # search-city: форма поиска по городу
 ├── entities/     # Weather: API, store, mappers, UI (карточка, лоадер, ошибка, пусто)
-└── shared/       # API-конфиг, DI-контейнер, хелперы, нормализация, стили, тест-сетап
+└── shared/       # config, lib (di, helpers, normalization, composables/usePageLoader), ui (PageLoader), стили, тест-сетап
 ```
 
 Алиасы: `@app`, `@pages`, `@widgets`, `@features`, `@entities`, `@shared`, `@`.
