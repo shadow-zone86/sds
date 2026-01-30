@@ -1,9 +1,9 @@
-import { stringNormalization } from '@/shared/lib/normalization/stringNormalization';
+import { useStringNormalization } from '@/shared/lib/normalization/useStringNormalization';
 
 /**
- * Возвращает подходящую для поиска строку запроса города (нормализованная: trim + нижний регистр) или null, если запрос пустой.
+ * Возвращает подходящую для поиска строку запроса города (нормализованная через useStringNormalization: trim + нижний регистр) или null, если запрос пустой.
  */
 export function getCityQueryFromInput(input: string): string | null {
-  const inputNormalize = stringNormalization(input);
+  const inputNormalize = useStringNormalization(input);
   return inputNormalize === undefined || inputNormalize === '' ? null : inputNormalize;
 }
