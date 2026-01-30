@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance } from 'axios';
-import { normalizeApiError } from '../lib/normalization/normalizeApiError';
+import { apiErrorNormalization } from '../lib/normalization/apiErrorNormalization';
 
 const baseURL = (typeof process !== 'undefined' && process.env?.API_BASE) || '/api';
 
@@ -9,7 +9,7 @@ export interface CreateHttpClientOptions {
 }
 
 /**
- * Создаёт экземпляр Axios с заданным baseURL и единой обработкой ошибок (normalizeApiError).
+ * Создаёт экземпляр Axios с заданным baseURL и единой обработкой ошибок (apiErrorNormalization).
  * Используется для привязки к конкретному API (например, OpenWeather) без прямого импорта axios в слайсах.
  */
 export function createHttpClient(options: CreateHttpClientOptions): AxiosInstance {
@@ -22,7 +22,7 @@ export function createHttpClient(options: CreateHttpClientOptions): AxiosInstanc
   });
   client.interceptors.response.use(
     (response) => response,
-    (error) => Promise.reject(new Error(normalizeApiError(error)))
+    (error) => Promise.reject(new Error(apiErrorNormalization(error)))
   );
   return client;
 }

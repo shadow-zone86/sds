@@ -52,6 +52,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .weather-widget {
+  --weather-block-max: 26.25rem; /* 420px при 16px базе, резиново через rem */
+
   @include flex-col(center, center, $spacing-md);
   min-height: 100vh;
   @include padding-all($spacing-md);
@@ -68,6 +70,12 @@ onMounted(() => {
     @include media-min-sm {
       @include font-size($font-size-lg);
     }
+  }
+
+  &__search,
+  &__state {
+    width: 100%;
+    max-width: var(--weather-block-max);
   }
 
   &__search {

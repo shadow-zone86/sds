@@ -48,7 +48,7 @@ defineProps<IWeatherCardProps>();
   padding: $spacing-md;
   min-width: 0;
   width: 100%;
-  max-width: 360px;
+  max-width: 420px;
   background: var(--el-fill-color-light);
   border-radius: var(--el-border-radius-base);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
