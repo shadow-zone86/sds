@@ -1,15 +1,8 @@
 <template>
   <div class="weather-widget">
-    <div class="weather-widget__title">
-      <h1 class="weather-widget__title-text">
-        {{ title }}
-      </h1>
-      <img
-        src="/logo.webp"
-        alt="Логотип"
-        class="weather-widget__logo"
-      >
-    </div>
+    <h1 class="weather-widget__title">
+      {{ title }}
+    </h1>
 
     <SearchCityForm class="weather-widget__search" />
 
@@ -70,12 +63,6 @@ onMounted(() => {
   }
 
   &__title {
-    @include flex-between(baseline);
-    width: 100%;
-    max-width: var(--weather-block-max);
-  }
-
-  &__title-text {
     margin: 0;
     color: $color-primary;
     @include font-size($font-size-md);
@@ -83,14 +70,6 @@ onMounted(() => {
     @include media-min-sm {
       @include font-size($font-size-lg);
     }
-  }
-
-  &__logo {
-    width: auto;
-    height: auto;
-    max-width: 8rem;
-    max-height: 2.25rem;
-    object-fit: contain;
   }
 
   &__search,
