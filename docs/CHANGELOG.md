@@ -17,6 +17,16 @@
   - [CHANGELOG.md](./CHANGELOG.md) — история изменений
 - README обновлён: оглавление документации, ссылки на главы (без API Guide)
 
+### Changed
+
+- Pre-commit (Husky): добавлен полный `lint` поверх `lint-staged`, а также `npx --no-install` для запуска `lint-staged` из локальных зависимостей.
+- Скрипты: добавлены `npm run check` (lint → type-check → test → build) и `npm run hooks:install` (переустановка git hooks).
+
+### Fixed
+
+- Husky pre-commit: добавлены недостающие служебные файлы `.husky/_/husky.sh` и `.husky/_/.gitignore`, из‑за отсутствия которых хук не выполнялся.
+- Документация: в `01-quick-start.md` добавлен раздел про восстановление Husky hooks.
+
 ## [0.1.0] — 2025-01-xx
 
 ### Added

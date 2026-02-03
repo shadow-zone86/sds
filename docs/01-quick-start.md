@@ -136,6 +136,20 @@ sds/
 npm run type-check
 ```
 
+### Не срабатывает pre-commit (Husky)
+
+Если перед `git commit` не запускаются проверки, обычно Husky не установил git hooks (не прописан `core.hooksPath`).
+
+```bash
+# Переустановить hooks
+npm run hooks:install
+
+# Проверить (должно вывести: .husky)
+git config core.hooksPath
+```
+
+Важно: `npm install` должен выполняться **без** `--ignore-scripts`, иначе Husky не сможет установить хуки автоматически.
+
 ### Очистка кеша
 
 ```bash

@@ -7,12 +7,14 @@
     "dev": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' webpack serve --config webpack.config.js --mode development",
     "build": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' webpack --config webpack.config.js --mode production",
     "build:analyze": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' webpack --config webpack.config.js --mode production --env analyze",
+    "check": "npm run lint && npm run type-check && npm run test -- --passWithNoTests && npm run build",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .vue,.ts,.tsx,.js,.jsx --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "hooks:install": "husky install",
     "prepare": "husky"
   },
   "dependencies": {

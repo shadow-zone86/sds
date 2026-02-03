@@ -43,7 +43,7 @@ Vue 3 (Composition API) + TypeScript + Webpack 5 + Axios + Element Plus + Pinia.
 - **SCSS** (глобальные переменные, миксины flex / media / spacing, палитра)
 - **Jest** (тесты)
 - **ESLint** + **vue-tsc** (линт и проверка типов)
-- **Husky** + **lint-staged** (pre-commit: линт, type-check, тесты, build)
+- **Husky** + **lint-staged** (pre-commit: lint-staged + полный lint, type-check, тесты, build)
 - **webpack-bundle-analyzer** (анализ бандла)
 
 ## Реализованный функционал
@@ -118,21 +118,24 @@ cp .env.example .env
 | `npm run dev` | Запуск dev-сервера (порт 3000) |
 | `npm run build` | Production-сборка |
 | `npm run build:analyze` | Сборка + открытие отчёта bundle analyzer |
+| `npm run check` | Полная проверка: lint → type-check → test → build |
 | `npm run type-check` | Проверка типов (vue-tsc) |
 | `npm run lint` | ESLint |
 | `npm run lint:fix` | ESLint с автофиксом |
 | `npm run test` | Jest |
 | `npm run test:watch` | Jest в watch-режиме |
 | `npm run test:coverage` | Jest с отчётом покрытия |
+| `npm run hooks:install` | Переустановить Husky git hooks (если не срабатывает pre-commit) |
 
 ## Pre-commit
 
 При `git commit` выполняются:
 
-1. **lint-staged**: ESLint и vue-tsc для изменённых файлов
-2. **type-check**: полная проверка типов
-3. **test**: Jest
-4. **build**: production-сборка
+1. **lint-staged**: ESLint (`--fix`) только для staged-файлов
+2. **lint**: полный ESLint по проекту
+3. **type-check**: полная проверка типов (vue-tsc)
+4. **test**: Jest
+5. **build**: production-сборка
 
 ## 📚 Дополнительные ресурсы
 
