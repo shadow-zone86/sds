@@ -4,7 +4,10 @@
 set -e
 
 echo "🔍 pre-commit: lint (staged files)..."
-npx lint-staged
+npx --no-install lint-staged
+
+echo "🔍 pre-commit: lint (full)..."
+npm run lint
 
 echo "🔍 pre-commit: type-check..."
 npm run type-check
